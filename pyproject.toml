@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "gameduo"
+version = "0.1.0"
+description = "원티드 프리온보딩 백엔드 코스 3주차 과제"
+authors = ["Yong Su Jeong <knarrblue@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^4.0.6"
+djangorestframework = "^3.13.1"
+django-redis = "^5.2.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
