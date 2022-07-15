@@ -9,8 +9,7 @@ class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'user_name',
-            'total_score'
+            'user_name'
         ]
 
 

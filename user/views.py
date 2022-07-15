@@ -18,11 +18,11 @@ class UserApi(APIView):
         :return: Json
         """
         try:
-            user = User.objects.filter(id=user_id)
+            user = User.objects.filter(id=user_id).first()
 
             return Response({
-                'users': UserModelSerializer(user[0]).data,
-                'totalScore': user[0].total_score
+                'users': user.id,
+                'totalScore': 0
             }, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({
@@ -39,8 +39,8 @@ class UserApi(APIView):
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            id = User.objects.filter(user_name=serializer.validated_data['user_name']).values('id')[0]['id']
+            user = User.objects.filter(user_name=serializer.validated_data['user_name']).first()
 
             return Response({
-                'userId': id
+                'userId': user.id
             }, status=status.HTTP_201_CREATED)
