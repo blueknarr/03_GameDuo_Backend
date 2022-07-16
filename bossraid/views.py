@@ -96,3 +96,21 @@ class RaidEndApi(APIView):
             return Response({
                 'message': 'userId와 raidRecordId가 일치하지 않습니다.'
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RaidStatusApi(APIView):
+    def get(self, request):
+        raid_status = cache.get('status')
+
+        if raid_status['isEntered']:
+            res = {
+                'canEnter': False,
+                'enteredUserId': raid_status['userId']
+            }
+        else:
+            res = {
+                'canEnter': True,
+                'enteredUserId': None
+            }
+
+        return Response(res,status=status.HTTP_200_OK)
