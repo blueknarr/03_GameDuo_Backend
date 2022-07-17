@@ -3,7 +3,9 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from user.serializers import UserSerializer, UserModelSerializer
+from bossraid.models import RaidsHistory
+from user.serializers import UserSerializer
+from user.utils.utils import get_user_raid_history
 
 User = get_user_model()
 
@@ -18,11 +20,11 @@ class UserApi(APIView):
         :return: Json
         """
         try:
-            user = User.objects.filter(id=user_id).first()
+            records, total_score = get_user_raid_history(user_id)
 
             return Response({
-                'users': user.id,
-                'totalScore': 0
+                'totalScore': total_score,
+                'bossRaidHistory': records
             }, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({
