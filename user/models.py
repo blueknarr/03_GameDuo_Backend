@@ -21,7 +21,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     user_name = models.CharField(_('User Name'), max_length=30, unique=True)
-    total_score = models.IntegerField(default=0)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
@@ -30,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return f'Id: {self.id}, User Name: {self.user_name}, Total Score: {self.total_score}'
+        return f'Id: {self.id}, User Name: {self.user_name}'
 
-    class meta:
+    class Meta:
         db_table='tb_users'

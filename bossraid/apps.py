@@ -1,6 +1,8 @@
 from django.apps import AppConfig
 
 
+
+
 class BossraidConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'bossraid'
@@ -14,10 +16,9 @@ class BossraidConfig(AppConfig):
 
         from django.core.cache import cache
         from dotenv import load_dotenv
+        from bossraid.utils.utils import RAIDS_STATUS
 
         load_dotenv()
         static_data = requests.get(os.environ['STATIC_DATA_URL']).json()
         cache.get_or_set('bossRaids', static_data)
-
-        raids_status = json.loads(os.environ['RAIDS_STATUS'])
-        cache.get_or_set('status', raids_status)
+        cache.get_or_set('status', RAIDS_STATUS)
