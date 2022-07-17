@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.core.cache import cache
 from bossraid.models import RaidsHistory
 from django.utils.translation import gettext_lazy as _
+from bossraid.utils.utils import get_level_score
 
 User = get_user_model()
 
@@ -30,13 +31,6 @@ class RaidsEndSerializer(serializers.Serializer):
         cache.set('status', raid_status)
         return raid_status
 
-    def get_level_score(self, level):
-        data = cache.get('bossRaids')['bossRaids'][0]['levels']
-
-        for row in data:
-            if row['level'] == level:
-                return row['score']
-
     def validate_user(self, user_id):
         if not user_id:
             raise serializers.ValidationError(
@@ -63,7 +57,7 @@ class RaidsEndSerializer(serializers.Serializer):
             user_id=validated_data['user_id'],
             raids_id=validated_data['raids_id'],
             level=raid_status['level'],
-            score=self.get_level_score(raid_status['level']),
+            score=get_level_score(raid_status['level']),
             enter_time=raid_status['lastEnterTime']
         )
         self.set_raid(raid_status)
