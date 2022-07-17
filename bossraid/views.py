@@ -5,16 +5,22 @@ from django.shortcuts import render
 from datetime import datetime
 from rest_framework import status
 from rest_framework.views import APIView
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from rest_framework.response import Response
 from bossraid.serializers import RaidsEndSerializer
-from bossraid.utils.utils import get_diff_secs, get_limit_seconds
-
+from bossraid.utils.utils import (
+    get_diff_secs,
+    get_limit_seconds,
+    get_raid_top_ranker,
+    get_my_ranking_info,
+    set_raid_score,
+    get_level_score
+)
 
 class RaidStartApi(APIView):
     def set_raid(self, request, raid_status, can_entered):
         """
-        보스레이드 시작 시 상태 저장
+        보스레이드 시작 시 redis에 상태 저장
         :param request: String
         :param raid_status: JSON
         :param can_entered: Bool
@@ -82,6 +88,7 @@ class RaidEndApi(APIView):
                 serializers = self.serializer_class(data=request.data)
 
                 if serializers.is_valid(raise_exception=True):
+                    set_raid_score('totalScore', raid_status['userId'], get_level_score(raid_status['level']))
                     serializers.save()
             else:
                 raid_status['isEntered'] = False
@@ -100,6 +107,10 @@ class RaidEndApi(APIView):
 
 class RaidStatusApi(APIView):
     def get(self, request):
+        """
+        보스레이드 입장 가능 여부
+        :return: JSON
+        """
         raid_status = cache.get('status')
 
         if raid_status['isEntered']:
@@ -114,3 +125,19 @@ class RaidStatusApi(APIView):
             }
 
         return Response(res,status=status.HTTP_200_OK)
+
+
+class RaidRankingInfoApi(APIView):
+    def post(self, request):
+        """
+        유저 ranking, total score 및 top ranker 정보 조회
+        :param request: Int
+        :return: JSON
+        """
+        top_rankers = get_raid_top_ranker('totalScore')
+        my_ranking_info = get_my_ranking_info('totalScore', request.data['userId'])
+
+        return Response({
+            'topRankerInfoList':top_rankers,
+            'myRankingInfo': my_ranking_info
+        }, status=status.HTTP_200_OK)
