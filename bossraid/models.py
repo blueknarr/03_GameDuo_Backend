@@ -17,7 +17,7 @@ class RaidsHistory(models.Model):
         db_table = 'tb_raids_history'
 
     def __str__(self):
-        return f'Id: {self.id}, BossRaids ID: {self.raids_id}, Level: {self.level}, Score: {self.score}'
+        return f'Id: {self.id}, BossRaids ID: {self.raids_id}, Level: {self.level}, Score: {self.score}, Enter Time: {self.enter_time}, End Time: {self.end_time}'
 
 
 class RaidsTotalScore(models.Model):
