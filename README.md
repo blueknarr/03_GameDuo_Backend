@@ -8,11 +8,11 @@
 
 ## 목차
 
-- [개발 기간](https://github.com/blueknarr/05_SNS_Backend#--개발-기간--)
+- [개발 기간](#-개발-기간--)
 
-- [프로젝트 설명 및 분석](https://github.com/blueknarr/05_SNS_Backend#-프로젝트)
+- [프로젝트 설명 및 분석](#-프로젝트)
 
-- [API 사용법](https://github.com/blueknarr/05_SNS_Backend#API)
+- [API 사용법](##-API)
 
 <br>  
 
