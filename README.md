@@ -259,7 +259,7 @@ Host: 127.0.0.1:8000
 
 ### Top Ranking 조회
 
-보스 레이드 랭킹 목록을 조회합니다. 다. 로그인 상태에서 access_token과 게시글 id를 이용해 `POST`으로 요청하고, 성공 시 응답 바디에 `JSON` 객체로 성공 메세지를 받습니다. 실패 시 에러 코드를 받습니다.
+보스 레이드 랭킹 목록을 조회합니다. userId를 `POST`로 요청하고, 성공 시 응답 바디에 `JSON` 객체로 성공 메세지를 받습니다. 실패 시 에러 코드를 받습니다.
 
 #### Request
 
@@ -270,11 +270,11 @@ POST /bossraid/topRankerList/ HTTP/1.1
 Host: 127.0.0.1:8000
 ```
 
-##### Header
+##### Parameter
 
 | Name          | Type   | Description                                      | Required |
 | ------------- | ------ | ------------------------------------------------ | -------- |
-| Authorization | String | 액세스 토큰 Bearer ${ACCESS_TOKEN} 형식으로 전달 | O        |
+| userId | `String` | 유저 아이디 | O        |
 
 <br>
 
